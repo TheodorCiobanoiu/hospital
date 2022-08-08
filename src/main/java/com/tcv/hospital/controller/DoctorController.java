@@ -1,5 +1,6 @@
 package com.tcv.hospital.controller;
 
+import com.tcv.hospital.dto.DoctorDTO;
 import com.tcv.hospital.exceptions.NoDoctorException;
 import com.tcv.hospital.model.Doctor;
 import com.tcv.hospital.model.Patient;
@@ -11,10 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("doctors")
-
 public class DoctorController {
 
     private final DoctorService doctorService;
@@ -24,9 +24,19 @@ public class DoctorController {
         return doctorService.getAllDoctors();
     }
 
+    @GetMapping("dto/all")
+    public List<DoctorDTO> getAllDoctorsDTO(){
+        return doctorService.getAllDoctorsDTO();
+    }
+
     @GetMapping("{specialty}")
-    public List<Doctor> getDoctorById(@PathVariable Specialty specialty){
+    public List<Doctor> getAllBySpecialty(@PathVariable Specialty specialty){
         return doctorService.getAllBySpecialty(specialty);
+    }
+
+    @GetMapping("dto/{specialty}")
+    public List<DoctorDTO> getAllBySpecialtyDTO(@PathVariable Specialty specialty){
+        return doctorService.getAllBySpecialtyDTO(specialty);
     }
 
     @PostMapping("addpatient/{doctorId}/{patientId}")
@@ -36,6 +46,10 @@ public class DoctorController {
     @PostMapping("save")
     public void saveDoctor(@RequestBody Doctor doctor){
         doctorService.save(doctor);
+    }
+    @DeleteMapping("delete/{id}")
+    public void deleteDoctor(@PathVariable Integer id){
+        doctorService.deleteById(id);
     }
 
 }

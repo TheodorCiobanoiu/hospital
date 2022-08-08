@@ -24,7 +24,6 @@ public class Patient extends Observable {
     String cnp;
     @OneToMany
     List<Visit> visitList = new ArrayList<>();
-    @NotNull
     @ManyToOne
     Doctor doctor;
     @Transient
@@ -34,4 +33,7 @@ public class Patient extends Observable {
         this.doctor = doctor;
         patientObserver.update(this, patientObserver);
     }
+
+
+
 }

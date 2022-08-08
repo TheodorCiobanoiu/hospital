@@ -27,6 +27,7 @@ public class Doctor {
 
     public void addPatient(Patient patient) {
         patientList.add(patient);
+        System.out.println("All good. Added patient: " + patient + "\nTo doctor: " + this);
     }
 
 }
