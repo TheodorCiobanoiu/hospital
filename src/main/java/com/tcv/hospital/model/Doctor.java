@@ -1,6 +1,7 @@
 package com.tcv.hospital.model;
 
 import com.sun.istack.NotNull;
+import com.tcv.hospital.exceptions.NoDoctorException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,5 +24,9 @@ public class Doctor {
     @OneToMany
     List<Patient> patientList;
     Specialty specialty;
+
+    public void addPatient(Patient patient) {
+        patientList.add(patient);
+    }
 
 }
