@@ -1,5 +1,6 @@
 package com.tcv.hospital.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sun.istack.NotNull;
 import com.tcv.hospital.observer.PatientObserver;
 import lombok.AllArgsConstructor;
@@ -7,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
@@ -16,9 +16,9 @@ import java.util.Observable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Patient extends Observable {
+public class Patient extends Observable{
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     @NotNull
     String cnp;
@@ -26,14 +26,4 @@ public class Patient extends Observable {
     List<Visit> visitList = new ArrayList<>();
     @ManyToOne
     Doctor doctor;
-    @Transient
-    PatientObserver patientObserver;
-
-    public void setDoctor(Doctor doctor){
-        this.doctor = doctor;
-        patientObserver.update(this, patientObserver);
-    }
-
-
-
 }

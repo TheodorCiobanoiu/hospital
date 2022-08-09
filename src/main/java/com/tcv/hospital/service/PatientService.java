@@ -22,7 +22,8 @@ public class PatientService {
         return patientRepository.findAll();
     }
     public Patient getPatientById(Integer id){
-        return patientRepository.getById(id);
+        System.out.println(patientRepository.findById(id).get());
+        return patientRepository.findById(id).get();
     }
 
     public List<PatientDTO> getAllPatientsDTO(){
@@ -44,8 +45,12 @@ public class PatientService {
                 .collect(Collectors.toList());
     }
 
-    public Patient getByCNP(String cnp){
+    public Patient getByCnp(String cnp){
         return patientRepository.getByCnp(cnp);
+    }
+
+    public PatientDTO getByCnpDTO(String cnp){
+        return patientMapper.toPatientDTO(patientRepository.getByCnp(cnp));
     }
 
     public void savePatient(Patient patient){

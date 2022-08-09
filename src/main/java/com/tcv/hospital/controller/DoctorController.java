@@ -3,11 +3,9 @@ package com.tcv.hospital.controller;
 import com.tcv.hospital.dto.DoctorDTO;
 import com.tcv.hospital.exceptions.NoDoctorException;
 import com.tcv.hospital.model.Doctor;
-import com.tcv.hospital.model.Patient;
 import com.tcv.hospital.model.Specialty;
 import com.tcv.hospital.service.DoctorService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +27,12 @@ public class DoctorController {
         return doctorService.getAllDoctorsDTO();
     }
 
-    @GetMapping("{specialty}")
+    @GetMapping("specialty/{specialty}")
     public List<Doctor> getAllBySpecialty(@PathVariable Specialty specialty){
         return doctorService.getAllBySpecialty(specialty);
     }
 
-    @GetMapping("dto/{specialty}")
+    @GetMapping("dto/specialty/{specialty}")
     public List<DoctorDTO> getAllBySpecialtyDTO(@PathVariable Specialty specialty){
         return doctorService.getAllBySpecialtyDTO(specialty);
     }

@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,8 +32,8 @@ public class DoctorService {
                 .collect(Collectors.toList());
     }
 
-    public Doctor save(Doctor doctor){
-        return doctorRepository.save(doctor);
+    public void save(Doctor doctor){
+        doctorRepository.save(doctor);
     }
     public void addPatient(Integer doctorId, Integer patientId) throws NoDoctorException{
         Doctor doctor = doctorRepository.getById(doctorId);
@@ -40,11 +41,14 @@ public class DoctorService {
            throw new NoDoctorException();
         }
         else {
-            Patient patient = patientRepository.getById(patientId);
-            if (patient != null) {
-                doctorRepository.getById(doctorId).addPatient(patient);
+            Optional<Patient> patient = patientRepository.findById(patientId);
+            if (patient.isPresent()) {
+                doctorRepository.findById(doctorId).get().addPatient(patient.get());
+                patientRepository.findById(patientId).get().setDoctor(doctor);
+                System.out.println("All good. Added patient: " + patient + "\nTo doctor: " + doctor);
             }
         }
+
     }
 
     public List<Doctor> getAllBySpecialty(Specialty specialty){
