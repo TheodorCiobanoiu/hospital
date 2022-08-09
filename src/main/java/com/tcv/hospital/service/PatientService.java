@@ -56,4 +56,8 @@ public class PatientService {
     public void savePatient(Patient patient){
         patientRepository.save(patient);
     }
+
+    public void deletePatient(Integer id){
+        patientRepository.deleteById(id);
+    }
 }

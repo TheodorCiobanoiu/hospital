@@ -16,14 +16,21 @@ import java.util.Observable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Patient extends Observable{
+public class Patient{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+    @NotNull
+    String name;
     @NotNull
     String cnp;
     @OneToMany
     List<Visit> visitList = new ArrayList<>();
     @ManyToOne
     Doctor doctor;
+    String doctorName;
+    public void setDoctorName(){
+        this.doctorName = this.doctor.getName();
+    }
+
 }

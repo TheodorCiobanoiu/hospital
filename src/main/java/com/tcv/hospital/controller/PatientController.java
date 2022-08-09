@@ -61,6 +61,10 @@ public class PatientController {
         patientService.savePatient(patient);
     }
 
+    @DeleteMapping("delete/{id}")
+    public void deletePatient(@PathVariable Integer id){
+        patientService.deletePatient(id);
+    }
 
 
 }

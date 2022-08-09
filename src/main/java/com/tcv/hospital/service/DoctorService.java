@@ -36,15 +36,20 @@ public class DoctorService {
         doctorRepository.save(doctor);
     }
     public void addPatient(Integer doctorId, Integer patientId) throws NoDoctorException{
-        Doctor doctor = doctorRepository.getById(doctorId);
-        if(doctor == null){
+        Optional<Doctor> doctor = doctorRepository.findById(doctorId);
+        Optional<Patient> patient = patientRepository.findById(patientId);
+        if(!doctor.isPresent()){
            throw new NoDoctorException();
         }
         else {
-            Optional<Patient> patient = patientRepository.findById(patientId);
             if (patient.isPresent()) {
-                doctorRepository.findById(doctorId).get().addPatient(patient.get());
-                patientRepository.findById(patientId).get().setDoctor(doctor);
+                doctor.get().addPatient(patient.get());
+                doctorRepository.save(doctor.get());
+                patient.get().setDoctor(doctor.get());
+                patient.get().setDoctorName();
+                patientRepository.save(patient.get());
+//                doctorRepository.findById(doctorId).get().addPatient(patient.get());
+//                patientRepository.findById(patientId).get().setDoctor(doctor.get());
                 System.out.println("All good. Added patient: " + patient + "\nTo doctor: " + doctor);
             }
         }
