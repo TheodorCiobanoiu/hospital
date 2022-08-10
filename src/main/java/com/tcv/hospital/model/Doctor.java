@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -21,13 +22,12 @@ public class Doctor {
     @NotNull
     String name;
     @OneToMany
+    @JsonManagedReference
     @ToString.Exclude
     List<Patient> patientList;
     Specialty specialty;
 
     public void addPatient(Patient patient) {
         patientList.add(patient);
-        System.out.println("All good. Added patient: " + patient + "\nTo doctor: " + this);
-
     }
 }

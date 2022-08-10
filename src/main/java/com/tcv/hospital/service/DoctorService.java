@@ -48,8 +48,6 @@ public class DoctorService {
                 patient.get().setDoctor(doctor.get());
                 patient.get().setDoctorName();
                 patientRepository.save(patient.get());
-//                doctorRepository.findById(doctorId).get().addPatient(patient.get());
-//                patientRepository.findById(patientId).get().setDoctor(doctor.get());
                 System.out.println("All good. Added patient: " + patient + "\nTo doctor: " + doctor);
             }
         }

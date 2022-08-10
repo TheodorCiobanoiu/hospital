@@ -27,6 +27,7 @@ public class Patient{
     @OneToMany
     List<Visit> visitList = new ArrayList<>();
     @ManyToOne
+    @JsonBackReference
     Doctor doctor;
     String doctorName;
     public void setDoctorName(){
