@@ -2,17 +2,15 @@ package com.tcv.hospital.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.sun.istack.NotNull;
-import com.tcv.hospital.exceptions.NoDoctorException;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Setter
-@ToString(callSuper=false)
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 public class Doctor {
@@ -22,6 +20,8 @@ public class Doctor {
     @NotNull
     String name;
     @OneToMany
+//    Annotation used so when getting a Doctor from the db we don't have an infinite loop
+//    because of the bidirectional relation between Patient and Doctor
     @JsonManagedReference
     @ToString.Exclude
     List<Patient> patientList;

@@ -2,11 +2,13 @@ package com.tcv.hospital.controller;
 
 import com.tcv.hospital.dto.DoctorDTO;
 import com.tcv.hospital.exceptions.NoDoctorException;
+import com.tcv.hospital.exceptions.NoSpecialtyException;
 import com.tcv.hospital.model.Doctor;
 import com.tcv.hospital.model.Specialty;
 import com.tcv.hospital.service.DoctorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.List;
 
@@ -28,8 +30,13 @@ public class DoctorController {
     }
 
     @GetMapping("specialty/{specialty}")
-    public List<Doctor> getAllBySpecialty(@PathVariable Specialty specialty){
-        return doctorService.getAllBySpecialty(specialty);
+    public List<Doctor> getAllBySpecialty(@PathVariable Specialty specialty) throws NoSpecialtyException{
+        try {
+            return doctorService.getAllBySpecialty(specialty);
+        } catch (MethodArgumentTypeMismatchException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     @GetMapping("dto/specialty/{specialty}")
@@ -38,8 +45,12 @@ public class DoctorController {
     }
 
     @PostMapping("addpatient/{doctorId}/{patientId}")
-    public void addPatient(@PathVariable Integer doctorId, @PathVariable Integer patientId) throws NoDoctorException {
-        doctorService.addPatient(doctorId,patientId);
+    public void addPatient(@PathVariable Integer doctorId, @PathVariable Integer patientId) {
+        try {
+            doctorService.addPatient(doctorId,patientId);
+        } catch (NoDoctorException e) {
+            System.out.println(e.getMessage());
+        }
     }
     @PostMapping("save")
     public void saveDoctor(@RequestBody Doctor doctor){

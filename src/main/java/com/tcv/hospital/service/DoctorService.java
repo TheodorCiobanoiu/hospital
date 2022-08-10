@@ -2,6 +2,7 @@ package com.tcv.hospital.service;
 
 import com.tcv.hospital.dto.DoctorDTO;
 import com.tcv.hospital.exceptions.NoDoctorException;
+import com.tcv.hospital.exceptions.NoSpecialtyException;
 import com.tcv.hospital.mapper.DoctorMapper;
 import com.tcv.hospital.model.Doctor;
 import com.tcv.hospital.model.Patient;
@@ -35,6 +36,9 @@ public class DoctorService {
     public void save(Doctor doctor){
         doctorRepository.save(doctor);
     }
+
+//    Function to add a patient to doctor's patientList. This also adds that doctor to the patient in the patient query
+
     public void addPatient(Integer doctorId, Integer patientId) throws NoDoctorException{
         Optional<Doctor> doctor = doctorRepository.findById(doctorId);
         Optional<Patient> patient = patientRepository.findById(patientId);
@@ -54,12 +58,16 @@ public class DoctorService {
 
     }
 
-    public List<Doctor> getAllBySpecialty(Specialty specialty){
-        return doctorRepository.getAllBySpecialty(specialty);
+    public List<Doctor> getAllBySpecialty(Specialty specialty) throws NoSpecialtyException {
+        if (!doctorRepository.findAllBySpecialty(specialty).isEmpty()) {
+            return doctorRepository.findAllBySpecialty(specialty);
+        } else {
+            throw new NoSpecialtyException();
+        }
     }
 
     public List<DoctorDTO> getAllBySpecialtyDTO(Specialty specialty){
-        return doctorRepository.getAllBySpecialty(specialty).stream()
+        return doctorRepository.findAllBySpecialty(specialty).stream()
                 .map(doctorMapper::toDoctorDTO)
                 .collect(Collectors.toList());
     }
